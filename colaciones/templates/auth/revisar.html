@@ -1,6 +1,47 @@
 {% extends "base.html" %}
-{% block title %}Revisar Menú {% endblock %}
+{% block title %}Revisar Menú{% endblock %}
 
 {% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5">Tu selección de la semana</h1>
+            <p class="text-muted">Revisa las opciones que has guardado. Si quieres realizar cambios vuelve al selector.</p>
+        </div>
+    </div>
 
+    {% if selections %}
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="list-group">
+                {% for dia, opcion in selections.items() %}
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ dia }}</h5>
+                        <small class="text-muted">Selección guardada</small>
+                    </div>
+                    <p class="mb-1">{{ opcion }}</p>
+                    {% if menu.get(dia) %}
+                    <small class="text-muted">Fruta: {{ menu[dia].fruta or 'Sin asignar' }} | Postre: {{ menu[dia].postre or 'Sin asignar' }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">¿Necesitas editar?</h5>
+                    <p class="card-text">Puedes volver al selector para modificar tus elecciones en cualquier momento.</p>
+                    <a href="{{ url_for('colaciones.selector') }}" class="btn btn-primary w-100">Volver al selector</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        Todavía no has seleccionado colaciones. <a class="alert-link" href="{{ url_for('colaciones.selector') }}">Haz tu selección aquí</a>.
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

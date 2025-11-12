@@ -1,37 +1,32 @@
 {% extends "base.html" %}
-
-
+{% block title %}Iniciar sesión{% endblock %}
 
 {% block content %}
-
-
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="text-center">{% block title %}Inicio sesión {% endblock %}</h1>
+        <div class="col-sm-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h4 text-center mb-0">Inicia sesión</h1>
+                </div>
                 <div class="card-body">
-                    <form action="" method="post">
-                        <div class="form-group">
-                            <label for="username">Nombre</label>
+                    <form action="" method="post" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Rut "Sin puntos ni guión"</label>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Rut <small class="text-muted">(sin puntos ni guión)</small></label>
                             <input type="text" class="form-control" id="password" name="password" required>
-                        </div>  
-                        <br>
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-primary" value="Ingresar">
-                        </div>                                              
-                    </form>    
-                </div>    
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Ingresar</button>
+                            <a class="btn btn-outline-secondary" href="{{ url_for('colaciones.selector') }}">Ver menú sin iniciar sesión</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 {% endblock %}
