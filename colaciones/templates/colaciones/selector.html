@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Seleccionar menú{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5">Selecciona tu colación semanal</h1>
+            <p class="text-muted">Elige una opción por día. Puedes modificar tu selección en cualquier momento.</p>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="row">
+        <div class="col">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% if menu %}
+    <div class="row">
+        <div class="col">
+            <div class="accordion" id="accordionMenu">
+                {% for item in menu %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-{{ loop.index }}">
+                        <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ loop.index }}" aria-expanded="{{ 'true' if loop.first else 'false' }}" aria-controls="collapse-{{ loop.index }}">
+                            {{ item.dia }}
+                        </button>
+                    </h2>
+                    <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" aria-labelledby="heading-{{ loop.index }}" data-bs-parent="#accordionMenu">
+                        <div class="accordion-body">
+                            <form method="post" class="needs-validation" novalidate>
+                                <input type="hidden" name="dia" value="{{ item.dia }}">
+                                <div class="row g-3">
+                                    {% if item.fruta %}
+                                    <div class="col-md-6">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Fruta</h5>
+                                                <p class="card-text">{{ item.fruta }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if item.postre %}
+                                    <div class="col-md-6">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Postre</h5>
+                                                <p class="card-text">{{ item.postre }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <hr>
+                                <div class="row g-3">
+                                    {% for label, value in {"Opción 1": item.opcion1, "Opción 2": item.opcion2, "Hipocalórico": item.hipocalorico, "Ensalada": item.ensalada, "Sopa": item.sopa}.items() if value %}
+                                    <div class="col-md-6">
+                                        <div class="form-check border rounded p-3 h-100">
+                                            <input class="form-check-input" type="radio" name="opcion" id="{{ item.dia|replace(' ', '-') }}-{{ loop.index }}" value="{{ value }}" {% if selections.get(item.dia) == value %}checked{% endif %} required>
+                                            <label class="form-check-label" for="{{ item.dia|replace(' ', '-') }}-{{ loop.index }}">
+                                                <strong>{{ label }}:</strong> {{ value }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="d-flex justify-content-end mt-3">
+                                    <button type="submit" class="btn btn-primary">Guardar selección</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        Aún no hay opciones cargadas. Utiliza la sección de administración para registrar las colaciones de la semana.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
