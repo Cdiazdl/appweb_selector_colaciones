@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="container-sm text-center">
+    <h1 class="display-3">Bienvenido al selector de Colaciones</h1>
+    <p class="lead">Aquí puedes hacer el registro del menú semanal y tener vista de tu selección</p>
+
+    <hr class="my-4">
+    <p>¿Que quieres hacer?</p>
+    <div class="d-flex justify-content-center">
+        <a href="{{url_for("auth.inicio")}}" class="btn btn-primary mx-2">Escoger Menú</a>
+        <a href="{{url_for("auth.revisar")}}" class="btn btn-secondary mx-2">Revisar Selección</a>
+    </div>
+</div>
+
+{% endblock %}
